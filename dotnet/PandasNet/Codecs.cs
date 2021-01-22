@@ -82,5 +82,7 @@ namespace PandasNet
                 File.WriteAllLines(file, new[] { text });
             else File.AppendAllLines(file, new[] { text });
         }
+
+        public static PyObject Encode(object value) => instance.TryEncode(value);
     }
 }

@@ -5,11 +5,7 @@ VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PandasNet", "PandasNet\PandasNet.csproj", "{BAF17795-2257-49A8-9DAB-B41F6E939BAD}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pythonnet", "pythonnet", "{9CE25C99-B7BD-4A96-9189-F628BDC7E83D}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Python.Runtime", "..\pythonnet\src\runtime\Python.Runtime.csproj", "{EA4C98D9-64BF-4ACD-A24E-65D7698A715C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibForTests", "LibForTests\LibForTests.csproj", "{93AE8724-3F0A-45E1-B52B-9259A3922A56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibForTests", "LibForTests\LibForTests.csproj", "{93AE8724-3F0A-45E1-B52B-9259A3922A56}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +17,6 @@ Global
 		{BAF17795-2257-49A8-9DAB-B41F6E939BAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BAF17795-2257-49A8-9DAB-B41F6E939BAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BAF17795-2257-49A8-9DAB-B41F6E939BAD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EA4C98D9-64BF-4ACD-A24E-65D7698A715C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EA4C98D9-64BF-4ACD-A24E-65D7698A715C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EA4C98D9-64BF-4ACD-A24E-65D7698A715C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EA4C98D9-64BF-4ACD-A24E-65D7698A715C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{93AE8724-3F0A-45E1-B52B-9259A3922A56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{93AE8724-3F0A-45E1-B52B-9259A3922A56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93AE8724-3F0A-45E1-B52B-9259A3922A56}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -32,9 +24,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{EA4C98D9-64BF-4ACD-A24E-65D7698A715C} = {9CE25C99-B7BD-4A96-9189-F628BDC7E83D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D43DD8D6-3BE9-4345-A30F-751A6D9B1404}
