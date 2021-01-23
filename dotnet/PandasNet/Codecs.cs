@@ -41,14 +41,14 @@ namespace PandasNet
         public bool CanDecode(PyObject objectType, Type targetType)
         {
             var type = objectType.ToString();
-            Write($"CanDecode: {type}, ObjectType: {objectType}, targetType: {targetType}");
+            //Write($"CanDecode: {type}, ObjectType: {objectType}, targetType: {targetType}");
             return _decoders.ContainsKey(type);
         }
 
         public bool TryDecode<T>(PyObject pyObj, out T value)
         {
             var type = pyObj.GetPythonType().ToString();
-            Write($"TryDecode: {type}, targetType: {typeof(T)}");
+            //Write($"TryDecode: {type}, targetType: {typeof(T)}");
             if (!_decoders.TryGetValue(type, out var decoder))
             {
                 value = default;
@@ -61,7 +61,7 @@ namespace PandasNet
 
         public bool CanEncode(Type type)
         {
-            Write($"CanEncode type: {type}");
+            //Write($"CanEncode type: {type}");
             return _encoders.ContainsKey(type);
         }
 
@@ -69,7 +69,7 @@ namespace PandasNet
         {
             if (value == null) return null; // Todo: Should I return None instead ?
 
-            Write($"Encode type: {value.GetType()}");
+            //Write($"Encode type: {value.GetType()}");
 
             if (!_encoders.TryGetValue(value.GetType(), out var encoder))
                 return null; // Todo: Should I return None instead ?
@@ -77,13 +77,13 @@ namespace PandasNet
             return encoder(value);
         }
 
-        private static void Write(string text)
-        {
-            const string file = @"C:\OtherDrive\Workspace\Git\fdieulle\pandasnet\log.txt";
-            if (!File.Exists(file))
-                File.WriteAllLines(file, new[] { text });
-            else File.AppendAllLines(file, new[] { text });
-        }
+        //private static void Write(string text)
+        //{
+        //    const string file = @"C:\OtherDrive\Workspace\Git\fdieulle\pandasnet\log.txt";
+        //    if (!File.Exists(file))
+        //        File.WriteAllLines(file, new[] { text });
+        //    else File.AppendAllLines(file, new[] { text });
+        //}
 
         public static PyObject Encode(object value) => instance.TryEncode(value);
     }
