@@ -15,13 +15,13 @@ namespace PandasNet
             codecs.Register("<class 'pandas.core.frame.DataFrame'>", DecodeDataFrame);
             codecs.Register("<class 'pandas.core.series.Series'>", DecodeSeries);
             codecs.Register("<class 'pandas._libs.tslibs.timestamps.Timestamp'>", DecodeTimestamp);
+            codecs.Register("<class 'pandas._libs.tslibs.timedeltas.TimeDelta'>", DateTimeCodec.DecodeTimeDelta);
         }
 
         private static PyObject Encode(Dictionary<string, Array> data)
         {
             using(var scope = Py.CreateScope())
             {
-
                 var pandas = scope.Import("pandas");
                 var pyDict = new PyDict();
                 foreach(var pair in data)
@@ -73,9 +73,5 @@ namespace PandasNet
 
             return timestamp.ToLocalTime();
         }
-
-        
-
-        
     }
 }
