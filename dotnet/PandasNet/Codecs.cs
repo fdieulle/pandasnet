@@ -25,7 +25,9 @@ namespace PandasNet
             if (_isInitialized && !force) return;
             _isInitialized = true;
 
+            DateTimeCodec.Initialize(this);
             NumpyCodec.Initialize(this);
+            PandasCodec.Initialize(this);
 
 
             PyObjectConversions.RegisterEncoder(this);
@@ -45,7 +47,7 @@ namespace PandasNet
 
         public bool TryDecode<T>(PyObject pyObj, out T value)
         {
-            var type = pyObj.GetAttr("__class__").As<string>();
+            var type = pyObj.GetPythonType().ToString();
             Write($"TryDecode: {type}, targetType: {typeof(T)}");
             if (!_decoders.TryGetValue(type, out var decoder))
             {
