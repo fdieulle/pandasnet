@@ -21,6 +21,8 @@ namespace PandasNet
             codecs.Register<ulong[]>(a => EncodeFast(a, Encode));
             codecs.Register<float[]>(a => EncodeFast(a, Encode));
             codecs.Register<double[]>(a => EncodeFast(a, Encode));
+            codecs.Register<DateTime[]>(a => EncodeFast(a, Encode));
+            codecs.Register<TimeSpan[]>(a => EncodeFast(a, Encode));
             codecs.Register<string[]>(a => EncodeSafe(a));
 
             // Python -> .Net
@@ -51,7 +53,7 @@ namespace PandasNet
             }
         }
 
-        private static PyObject EncodeFast<T>(T[] array, Action<T[], UIntPtr> encode)
+        private static PyObject EncodeFast<T>(T[] array, Action<T[], IntPtr> encode)
         {
             using (var scope = Py.CreateScope())
             {
@@ -63,17 +65,58 @@ namespace PandasNet
                 using (var arrayInterface = py.GetAttr("__array_interface__"))
                 using (var data = arrayInterface.GetItem("data"))
                 using (var address = data.GetItem(0))
-                    encode(array, new UIntPtr(address.As<ulong>()));
+                    encode(array, new IntPtr(address.As<long>()));
 
                 return py;
             }
         }
 
-        private static unsafe void Encode<T>(T[] array, UIntPtr ptr) where T : unmanaged
+        private static unsafe void Encode<T>(T[] array, IntPtr ptr) where T : unmanaged
         {
             var size = sizeof(T) * array.Length;
             fixed (T* src = array)
                 Buffer.MemoryCopy(src, (T*)ptr, size, size);
+        }
+
+        private static unsafe void Encode(DateTime[] array, IntPtr ptr)
+        {
+            var dst = (long*)ptr;
+
+            fixed (DateTime* ptSrc = array)
+            {
+                var src = ptSrc;
+                var end = src + array.Length;
+                var deltaTicksToUtc = src->ToUniversalTime().Ticks - src->Ticks;
+                var nextDayTicks = src->Date.AddDays(1).Ticks;
+                while (src < end)
+                {
+                    // This is enough to detect the day change to handle DST changes without hit performances
+                    if (src->Ticks >= nextDayTicks)
+                    {
+                        deltaTicksToUtc = src->ToUniversalTime().Ticks - src->Ticks;
+                        nextDayTicks = src->Date.AddDays(1).Ticks;
+                    }
+                    
+                    *dst = (src->Ticks + deltaTicksToUtc - Time.OriginTicks) / 10;
+                    ++src; ++dst;
+                }
+            }
+        }
+
+        private static unsafe void Encode(TimeSpan[] array, IntPtr ptr)
+        {
+            var dst = (long*)ptr;
+            
+            fixed(TimeSpan* ptSrc = array)
+            {
+                var src = ptSrc;
+                var end = src + array.Length;
+                while (src < end)
+                {
+                    *dst = src->Ticks / 10;
+                    ++src; ++dst;
+                }
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -105,9 +148,9 @@ namespace PandasNet
             if (typeof(T) == typeof(double))
                 return "float64";
             if (typeof(T) == typeof(DateTime))
-                return "timedelta64[us]";
-            if (typeof(T) == typeof(TimeSpan))
                 return "datetime64[us]";
+            if (typeof(T) == typeof(TimeSpan))
+                return "timedelta64[us]";
             if (typeof(T) == typeof(string))
                 return "str";
             // Todo: maybe 'V' for raw data (void) based on custom struct
@@ -167,13 +210,13 @@ namespace PandasNet
                 case 'c': // complex number
                     break;
                 case 'm': // timedelta
-                    break;
+                    return py.DecodeFast<TimeSpan>((p, a) => Decode(p, dType.GetTimeFactor(), a));
                 case 'M': // datetime
-                    break;
+                    return py.DecodeFast<DateTime>((p, a) => Decode(p, dType.GetTimeFactor(), a));
                 case 'O': // object
-                    break;
+                    return py.DecodeSafe<string>(); // Todo: do better here if it's not necessary a string
                 case 'S': // string
-                    return py.DecodeSafe<string>();
+                    return py.DecodeSafe<string>(); // Obsolete since python 3
                 case 'U': // string as unicode
                     return py.DecodeSafe<string>();
                 case 'V': // fixed chunk of memory (void)
@@ -196,7 +239,7 @@ namespace PandasNet
             return result;
         }
 
-        private static T[] DecodeFast<T>(this PyObject py, Action<UIntPtr, T[]> decode)
+        private static T[] DecodeFast<T>(this PyObject py, Action<IntPtr, T[]> decode)
         {
             var length = py.Length();
             var result = new T[length];
@@ -205,17 +248,89 @@ namespace PandasNet
             using (var arrayInterface = py.GetAttr("__array_interface__"))
             using (var data = arrayInterface.GetItem("data"))
             using (var address = data.GetItem(0))
-                decode(new UIntPtr(address.As<ulong>()), result);
+                decode(new IntPtr(address.As<long>()), result);
 
             return result;
         }
 
-        private static unsafe void Decode<T>(UIntPtr ptr, T[] result) where T : unmanaged
+        private static unsafe void Decode<T>(IntPtr ptr, T[] result) where T : unmanaged
         {
             var src = (T*)ptr;
             var size = sizeof(T) * result.Length;
             fixed (T* dst = result)
                 Buffer.MemoryCopy(src, dst, size, size);
+        }
+
+        private static unsafe void Decode(IntPtr ptr, double factor, DateTime[] result)
+        {
+            var src = (long*)ptr;
+            fixed( DateTime* ptDst = result)
+            {
+                var dst = (long*)ptDst;
+                var end = src + result.Length;
+
+                var dt = new DateTime((long)(*src * factor) + Time.OriginTicks, DateTimeKind.Utc);
+                var deltaTicksToUtc = dt.ToLocalTime().Ticks - dt.Ticks;
+                var nextDayTicks = dt.Date.AddDays(1).Ticks / factor - Time.OriginTicks;
+
+                while(src<end)
+                {
+                    if (*src > nextDayTicks)
+                    {
+                        dt = new DateTime((long)(*src * factor) + Time.OriginTicks, DateTimeKind.Utc);
+                        deltaTicksToUtc = dt.ToLocalTime().Ticks - dt.Ticks;
+                        nextDayTicks = dt.Date.AddDays(1).Ticks / factor - Time.OriginTicks;
+                    }
+
+                    *dst = ((long)(*src * factor) + Time.OriginTicks + deltaTicksToUtc) | Time.KindLocalTicks;
+                    ++src; ++dst;
+                }
+            }
+        }
+
+        private static unsafe void Decode(IntPtr ptr, double factor, TimeSpan[] result)
+        {
+            var src = (long*)ptr;
+            fixed (TimeSpan* ptDst = result)
+            {
+                var dst = (long*)ptDst;
+                var end = src + result.Length;
+
+                while (src < end)
+                {
+                    *dst = (long)(*src * factor);
+                    ++src; ++dst;
+                }
+            }
+        }
+
+        private static double GetTimeFactor(this PyObject dType)
+        {
+            dynamic numpy = Py.Import("numpy");
+            var data = numpy.datetime_data(dType);
+            var unit = data[0].As<string>();
+            var count = data[1].As<int>();
+            switch (unit)
+            {
+                case "W":
+                    return Time.TICKS_BY_WEEK * count;
+                case "D":
+                    return Time.TICKS_BY_DAY * count;
+                case "h":
+                    return Time.TICKS_BY_HOUR * count;
+                case "m":
+                    return Time.TICKS_BY_MIN * count;
+                case "s":
+                    return Time.TICKS_BY_SEC * count;
+                case "ms":
+                    return Time.TICKS_BY_MS * count;
+                case "us":
+                    return Time.TICKS_BY_US * count;
+                case "ns":
+                    return Time.TICKS_BY_NS * count;
+                default:
+                    throw new NotSupportedException($"time unit {unit} isn't supported");
+            }
         }
 
         #endregion
