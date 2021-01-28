@@ -37,6 +37,20 @@ def _write_configure_props():
     ET.ElementTree(proj).write(CONFIGURED_PROPS)
 
 
+def _ensure_reference(project_file):
+    import xml.etree.ElementTree as ET
+    from distutils.sysconfig import get_python_lib
+
+    root = ET.parse(project_file)
+
+    for node in root.findall('//Reference[@Include="Python.Runtime"]/HintPath'):
+        reference = os.path.join(os.path.dirname(project_file), node.text)
+        if not os.path.exists(reference):
+            node.text = os.path.join(get_python_lib(), 'Python.Runtime.dll')
+    
+    root.write(project_file)
+
+
 class configure(Command):
     """Configure command"""
 
@@ -83,7 +97,7 @@ class build_dotnet(Command):
     def finalize_options(self):
         if self.dotnet_config is None:
             self.dotnet_config = "release"
-        self.dotnet_config = "debug"
+        # self.dotnet_config = "debug"
 
         build = self.distribution.get_command_obj("build")
         build.ensure_finalized()
@@ -98,7 +112,8 @@ class build_dotnet(Command):
 
         for lib in dotnet_modules:
             output = os.path.join(
-                os.path.abspath(self.build_lib), lib.args.pop("output")
+                os.path.abspath(self.build_lib), 
+                lib.args.pop("output")
             )
             rename = lib.args.pop("rename", {})
 
@@ -109,6 +124,8 @@ class build_dotnet(Command):
                 ],
                 [],
             )
+
+            _ensure_reference(lib.path)
 
             opts.extend(["--configuration", self.dotnet_config])
             opts.extend(["--output", output])
