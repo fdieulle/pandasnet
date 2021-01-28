@@ -1,6 +1,7 @@
 import pandasnet
 import os
 import numpy as np
+import pytest
 import clr
 
 lib_file = os.path.join(os.path.dirname(__file__), 'libs', 'LibForTests.dll')
@@ -59,7 +60,7 @@ def test_float64_codec():
     y = npnet.OneDimensionFloat64Array(x)
     __check(x, y)
 
-
+@pytest.mark.skip(reason="pythonnet do not allow override")
 def test_string_codec():
     x = np.array(['foo_1', 'foo_2', 'foo_3'], dtype='str')
     y = npnet.OneDimensionStringArray(x)
