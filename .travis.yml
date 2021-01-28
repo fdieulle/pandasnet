@@ -1,0 +1,15 @@
+language: python
+python:
+ - "3.6"
+ - "3.7"
+ - "3.8"
+addons:
+ apt:
+  packages:
+   - dotnet-sdk-5.0
+install:
+ - pip install -r requirements.txt
+ - pip install .
+script: 
+ - pytest tests/
+
