@@ -46,7 +46,7 @@ def _ensure_reference(project_file):
     for node in root.findall('//Reference[@Include="Python.Runtime"]/HintPath'):
         reference = os.path.join(os.path.dirname(project_file), node.text)
         if not os.path.exists(reference):
-            node.text = os.path.join(get_python_lib(), 'Python.Runtime.dll')
+            node.text = os.path.join(get_python_lib(), 'pythonnet', 'runtime', 'Python.Runtime.dll')
     
     root.write(project_file)
 
@@ -205,7 +205,10 @@ setup(
     url='https://github.com/fdieulle/pandasnet',
     packages=['pandasnet'],
     package_data={'pandasnet': ['libs/PandasNet.*']},
-    install_requires=['pycparser', 'pythonnet', 'pandas'],
+    install_requires=[
+        'pycparser', 
+        'pythonnet@git+https://github.com/pythonnet/pythonnet', 
+        'pandas'],
     dotnet_libs=dotnet_libs,
     classifiers=[
        "License :: OSI Approved :: MIT License",

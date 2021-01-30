@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <Reference Include="Python.Runtime">
-      <HintPath>..\..\venv\Lib\site-packages\Python.Runtime.dll</HintPath>
+      <HintPath>..\..\venv\Lib\site-packages\pythonnet\runtime\Python.Runtime.dll</HintPath>
     </Reference>
   </ItemGroup>
 
