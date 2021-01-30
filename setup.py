@@ -115,13 +115,10 @@ class build_dotnet(Command):
                 os.path.abspath(self.build_lib), 
                 lib.args.pop("output")
             )
-            rename = lib.args.pop("rename", {})
+            exclude = lib.args.pop("exclude", None)
 
-            opts = sum(
-                [
-                    ["--" + name.replace("_", "-"), value]
-                    for name, value in lib.args.items()
-                ],
+            opts = sum([
+                ["--" + name.replace("_", "-"), value] for name, value in lib.args.items()],
                 [],
             )
 
@@ -133,23 +130,10 @@ class build_dotnet(Command):
             self.announce("Running dotnet build...", level=distutils.log.INFO)
             self.spawn(["dotnet", "build", lib.path] + opts)
 
-            for k, v in rename.items():
-                source = os.path.join(output, k)
-                dest = os.path.join(output, v)
+            if exclude is not None:
+                files = [os.path.join(output, f) for f in os.listdir(output) if exclude in f]
+                [os.remove(f) for f in files if os.path.isfile(f)]
 
-                if os.path.isfile(source):
-                    try:
-                        os.remove(dest)
-                    except OSError:
-                        pass
-
-                    self.move_file(src=source, dst=dest, level=distutils.log.INFO)
-                else:
-                    self.warn(
-                        "Can't find file to rename: {}, current dir: {}".format(
-                            source, os.getcwd()
-                        )
-                    )
 
 # Add build_dotnet to the build tasks:
 from distutils.command.build import build as _build
@@ -184,7 +168,8 @@ dotnet_libs = [
     DotnetLib(
         "pandas-converters",
         "dotnet/PandasNet/PandasNet.csproj",
-        output="pandasnet/libs"
+        output="pandasnet/libs",
+        exclude='Python.Runtime.'
     ),
     DotnetLib(
         "pandas-converters-tests",
