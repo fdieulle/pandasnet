@@ -10,9 +10,9 @@ addons:
       - sourceline: deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-xenial-prod xenial main
         key_url: https://packages.microsoft.com/keys/microsoft.asc
     packages:
-      - dotnet-hostfxr-2.2
-      - dotnet-runtime-2.2
-      - dotnet-sdk-2.2
+      - dotnet-hostfxr-3.1
+      - dotnet-runtime-3.1
+      - dotnet-sdk-3.1
 install:
  - pip install -r requirements.txt
  - python setup.py develop
