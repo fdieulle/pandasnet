@@ -181,7 +181,6 @@ dotnet_libs = [
 setup(
     cmdclass=cmdclass,
     name='pandasnet',
-    version='0.1',
     author='Fabien Dieulle',
     author_email='fabiendieulle@hotmail.fr',
     description='Extensions of pythonnet package to support pandas DataFrame conversions',
@@ -206,5 +205,7 @@ setup(
         "Operating System :: POSIX :: Linux",
         "Operating System :: MacOS :: MacOS X",
     ],
+    use_scm_version=True,
+    setup_requires=['setuptools_scm'],
     zip_safe=False
 )
