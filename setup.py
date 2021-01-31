@@ -191,7 +191,7 @@ setup(
     package_data={'pandasnet': ['libs/PandasNet.*']},
     install_requires=[
         'pycparser', 
-        'pythonnet@git+https://github.com/pythonnet/pythonnet', 
+        'pythonnet', 
         'pandas'],
     dotnet_libs=dotnet_libs,
     classifiers=[
@@ -201,6 +201,7 @@ setup(
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
         "Operating System :: Microsoft :: Windows",
         "Operating System :: POSIX :: Linux",
         "Operating System :: MacOS :: MacOS X",
