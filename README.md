@@ -23,20 +23,54 @@ dotnet also provides [scripts](https://docs.microsoft.com/en-us/dotnet/core/tool
 pip install pandasnet
 ```
 
-If you have any trouble to install `pythonnet` as dependency you can do it manually from the github sources
-```
-pip install git+https://github.com/pythonnet/pythonnet
-```
-I cannot automatize this workaround because unfortunately PyPi doesn't allow to declare dependencies this way.
-
 ## Features
 
 To load the converter you need to import the pacakge once in your python environment.
 If the dotnet clr isn't started yet through the pytonnet package the import will.
 
-```{python}
+```python
 import pandasnet
 ```
+
+We construct a simple C# function to test conversion
+
+```csharp
+using System;
+using System.Collections.Generic;
+
+namespace LibForTests
+{
+    public class PandasNet
+    {
+        public static Dictionary<string, Array> BasicDataFrame(Dictionary<string, Array> df)
+            => df;
+    }
+}
+```
+We build this function into a library named `LibForTests.dll`
+Now you can load it in your python environmanet then using it.
+
+```python
+import clr
+import pandasnet # Load the converters
+import pandas as pd
+from datetime import datetime
+
+# Load your dll
+clr.AddReference('LibForTests.dll')
+from LibForTests import PandasNet as pdnet
+
+x = pd.DataFrame({
+    'A': [1, 2, 3],
+    'B': [1.23, 1.24, 1.22],
+    'C': ['foo', 'bar', 'other'],
+    'D': [datetime(2021, 1, 22), datetime(2021, 1, 23), datetime(2021, 1, 24)]
+})
+y = pdnet.BasicDataFrame(x)
+
+print(y)
+```
+
 
 Below you can found an exhausitve list of supported data convertions.
 
