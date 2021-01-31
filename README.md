@@ -13,7 +13,9 @@ It provides additional data conversions for `pandas`, `numpy` and `datetime`
 ## Prerequisites
 
 * python 3.6 or higher
-* dotnet
+* [dotnet](https://dotnet.microsoft.com/download). 
+ 
+dotnet also provides [scripts](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-install-script) to proceed the installation by command line.
 
 ## Installation
 
