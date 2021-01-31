@@ -120,3 +120,31 @@ Below you can found an exhausitve list of supported data convertions.
 |DateTime[]               |numpy.ndarray(dtype=datetime64) |
 |TimeSpan[]               |numpy.ndarray(dtype=timedelta64)|
 |Dictionary[string, Array]|pandas.core.frame.DataFrame     |
+
+## Contributing
+
+Issue tracker: [https://github.com/fdieulle/pandasnet/issues](https://github.com/fdieulle/pandasnet/issues)
+
+If you want to checkout the project and propose your own contribution, you will need to setup the project with the following steps:
+
+### Create a virtual environment:
+
+```
+python -m venv venv
+```
+
+### Activate your virtual environment:
+
+```
+venv/Scripts/activate
+```
+
+### Install package dependencies
+
+```
+pip install -r requirements.txt
+```
+
+## License
+
+This project is open source under the [MIT license](./LICENSE).
