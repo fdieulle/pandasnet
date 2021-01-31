@@ -21,6 +21,12 @@ It provides additional data conversions for `pandas`, `numpy` and `datetime`
 pip install pandasnet
 ```
 
+If you have any trouble to install `pythonnet` as dependency you can do it manually from the github sources
+```
+pip install git+https://github.com/pythonnet/pythonnet
+```
+I cannot automatize this workaround because unfortunately PyPi doesn't allow to declare dependencies this way.
+
 ## Features
 
 To load the converter you need to import the pacakge once in your python environment.
