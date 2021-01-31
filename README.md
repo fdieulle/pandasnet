@@ -6,7 +6,7 @@
 [![pypi](https://img.shields.io/pypi/v/pandasnet.svg)](https://pypi.org/project/pandasnet/)
 [![python supported](https://img.shields.io/pypi/pyversions/pandasnet.svg)](https://pypi.org/project/pandasnet/)
 
-`pandasnet` si a python package build on top of [`pythonnet`](https://pythonnet.github.io/). 
+`pandasnet` is a python package build on top of [`pythonnet`](https://pythonnet.github.io/). 
 It provides additional data conversions for `pandas`, `numpy` and `datetime`
 
 ## Prerequisites
@@ -24,7 +24,7 @@ pip install pandasnet
 
 ## Features
 
-To load the converter you need to import the pacakge once in your python environment.
+To load the converter you need to import the package once in your python environment.
 If the dotnet clr isn't started yet through the pytonnet package the import will.
 
 ```python
@@ -47,7 +47,7 @@ namespace LibForTests
 }
 ```
 We build this function into a library named `LibForTests.dll`
-Now you can load it in your python environmanet then using it.
+Now we can load it in your python environment then using it.
 
 ```python
 import clr
