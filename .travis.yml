@@ -35,7 +35,6 @@ deploy:
   - provider: release
     api_key: $GITHUB_TOKEN
     file: "dist/*"
-    skip_cleanup: true
     on:
       tags: true
   
