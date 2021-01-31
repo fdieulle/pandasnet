@@ -22,7 +22,10 @@ install:
  - python setup.py develop
  - pip install .
 script: 
- - pytest tests/
+ - pytest --cov-report=xml --cov=pandasnet tests/
+
+after_success:
+ - codecov -t $CODECOV_TOKEN
 
 deploy:
   - provider: pypi
