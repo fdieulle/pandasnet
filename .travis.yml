@@ -35,8 +35,6 @@ deploy:
       python: "3.8"
   - provider: release
     api_key: $GITHUB_TOKEN
-    file: "dist/*"
-    skip_cleanup: true
     on:
       tags: true
       python: "3.8"
