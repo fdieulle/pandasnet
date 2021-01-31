@@ -1,7 +1,6 @@
 # pandasnet
 
 [![Build Status](https://travis-ci.com/fdieulle/pandasnet.svg?branch=main)](https://travis-ci.com/github/fdieulle/pandasnet)
-[![codecov](https://codecov.io/gh/fdieulle/pandasnet/branch/main/graph/badge.svg?token=A2N3JMEPN6)](https://codecov.io/gh/fdieulle/pandasnet)
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg?maxAge=3600)](./LICENSE) 
 [![pypi](https://img.shields.io/pypi/v/pandasnet.svg)](https://pypi.org/project/pandasnet/)
