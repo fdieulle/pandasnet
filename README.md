@@ -11,7 +11,7 @@ It provides additional data conversions for `pandas`, `numpy` and `datetime`
 
 ## Prerequisites
 
-* python 3.6 or higher. (Note: Python 3.9 not yet fully supported by `pythonnet`)
+* python 3.6 or higher.
 * [dotnet](https://dotnet.microsoft.com/download). 
  
 dotnet also provides [scripts](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-install-script) to proceed the installation by command line.
@@ -46,8 +46,8 @@ namespace LibForTests
     }
 }
 ```
-We build this function into a library named `LibForTests.dll`
-Now we can load it in our python environment then using it.
+We build this function into a library named `LibForTests.dll`.
+We load this library into our python environment then use it.
 
 ```python
 import clr
@@ -71,7 +71,7 @@ print(y)
 ```
 
 
-Below you can found an exhausitve list of supported data convertions.
+Below an exhausitve list of supported data convertions.
 
 ### Python -> .Net
 
@@ -125,7 +125,7 @@ Below you can found an exhausitve list of supported data convertions.
 
 Issue tracker: [https://github.com/fdieulle/pandasnet/issues](https://github.com/fdieulle/pandasnet/issues)
 
-If you want to checkout the project and propose your own contribution, you will need to setup the project with the following steps:
+If you want to checkout the project and propose your own contribution, you will need to setup it following few steps:
 
 ### Create a virtual environment:
 
