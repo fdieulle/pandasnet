@@ -47,7 +47,7 @@ namespace LibForTests
 }
 ```
 We build this function into a library named `LibForTests.dll`
-Now we can load it in your python environment then using it.
+Now we can load it in our python environment then using it.
 
 ```python
 import clr
