@@ -264,14 +264,14 @@ namespace PandasNet
         private static unsafe void Decode(IntPtr ptr, double factor, DateTime[] result)
         {
             var src = (long*)ptr;
-            fixed( DateTime* ptDst = result)
+            fixed (DateTime* ptDst = result)
             {
                 var dst = (long*)ptDst;
                 var end = src + result.Length;
 
                 var dt = new DateTime((long)(*src * factor) + Time.OriginTicks, DateTimeKind.Utc);
                 var deltaTicksToUtc = dt.ToLocalTime().Ticks - dt.Ticks;
-                var nextDayTicks = dt.Date.AddDays(1).Ticks / factor - Time.OriginTicks;
+                var nextDayTicks = (dt.Date.AddDays(1).Ticks - Time.OriginTicks) / factor;
 
                 while(src<end)
                 {
@@ -279,7 +279,7 @@ namespace PandasNet
                     {
                         dt = new DateTime((long)(*src * factor) + Time.OriginTicks, DateTimeKind.Utc);
                         deltaTicksToUtc = dt.ToLocalTime().Ticks - dt.Ticks;
-                        nextDayTicks = dt.Date.AddDays(1).Ticks / factor - Time.OriginTicks;
+                        nextDayTicks = (dt.Date.AddDays(1).Ticks - Time.OriginTicks) / factor;
                     }
 
                     *dst = ((long)(*src * factor) + Time.OriginTicks + deltaTicksToUtc) | Time.KindLocalTicks;
