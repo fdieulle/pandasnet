@@ -15,7 +15,8 @@ def test_basic_dataframe():
         'A': [1, 2, 3],
         'B': [1.23, 1.24, 1.22],
         'C': ['foo', 'bar', 'other'],
-        'D': [datetime(2021, 1, 22), datetime(2021, 1, 23), datetime(2021, 1, 24)]
+        'D': [datetime(2021, 1, 22), datetime(2021, 1, 23), datetime(2021, 1, 24)],
+        'E': [True, False, True]
     })
     y = pdnet.BasicDataFrame(x)
     
