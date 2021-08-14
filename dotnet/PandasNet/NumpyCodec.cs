@@ -153,6 +153,8 @@ namespace PandasNet
                 return "timedelta64[us]";
             if (typeof(T) == typeof(string))
                 return "str";
+            if (typeof(T) == typeof(bool))
+                return "bool_";
             // Todo: maybe 'V' for raw data (void) based on custom struct
             return "O";
         }
