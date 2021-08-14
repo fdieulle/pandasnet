@@ -191,7 +191,7 @@ setup(
     package_data={'pandasnet': ['libs/PandasNet.*']},
     install_requires=[
         'pycparser', 
-        'pythonnet @ git+https://github.com/pythonnet/pythonnet@master', 
+        'pythonnet @ git+https://github.com/pythonnet/pythonnet.git', 
         'pandas'],
     dotnet_libs=dotnet_libs,
     classifiers=[
