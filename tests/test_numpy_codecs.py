@@ -4,6 +4,7 @@ import numpy as np
 import pytest
 import clr
 
+
 lib_file = os.path.join(os.path.dirname(__file__), 'libs', 'LibForTests.dll')
 clr.AddReference(lib_file)
 
