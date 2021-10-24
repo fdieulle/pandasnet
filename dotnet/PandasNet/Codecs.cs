@@ -36,7 +36,7 @@ namespace PandasNet
 
         public void Register<T>(string pyType, Func<PyObject, T> decoder) => _decoders[pyType] = decoder;
 
-        public bool CanDecode(PyObject objectType, Type targetType)
+        public bool CanDecode(PyType objectType, Type targetType)
         {
             var type = objectType.ToString();
             return _decoders.ContainsKey(type);

@@ -22,7 +22,7 @@ namespace PandasNet
         {
             using(var scope = Py.CreateScope())
             {
-                var pandas = scope.Import("pandas");
+                dynamic pandas = scope.Import("pandas");
                 var pyDict = new PyDict();
                 foreach(var pair in data)
                 {
