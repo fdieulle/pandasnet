@@ -6,9 +6,9 @@ namespace PandasNet
 {
     public class Codecs : IPyObjectDecoder, IPyObjectEncoder
     {
-        private static readonly Codecs instance = new Codecs();
+        public static Codecs Instance { get; } = new Codecs();
 
-        public static void Initialize(bool force = false) => instance.Setup(force);
+        public static void Initialize(bool force = false) => Instance.Setup(force);
 
         private bool _isInitialized = false;
         private readonly Dictionary<string, object> _decoders = new Dictionary<string, object>();
@@ -70,6 +70,6 @@ namespace PandasNet
             return encoder(value);
         }
 
-        public static PyObject Encode(object value) => instance.TryEncode(value);
+        public static PyObject Encode(object value) => Instance.TryEncode(value);
     }
 }
