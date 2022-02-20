@@ -133,3 +133,4 @@ obj
 /tests/libs
 /pandasnet/libs/
 /dotnet/PandasNet/bin
+/dotnet/LibForTests/bin
