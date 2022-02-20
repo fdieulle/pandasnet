@@ -1,6 +1,7 @@
 import pandasnet
 import os
 import pandas as pd
+import numpy as np
 from datetime import datetime
 import clr
 
@@ -19,6 +20,29 @@ def test_basic_dataframe():
         'E': [True, False, True]
     })
     y = pdnet.BasicDataFrame(x)
+    
+    __check(x, y)
+
+
+def test_datetime64_into_dataframe():
+    x = pd.DataFrame({
+        'Utc': [
+            np.datetime64('2010-03-14T15:00:00.00'),
+            np.datetime64('2010-03-15T15:00:00.00'),
+            np.datetime64('2010-03-16T15:00:00.00'),
+        ],
+        'Utc-6': [
+            np.datetime64('2010-03-14T15:00:00.00-0600'),
+            np.datetime64('2010-03-15T15:00:00.00-0600'),
+            np.datetime64('2010-03-16T15:00:00.00-0600'),
+        ],
+        'Utc+4': [
+            np.datetime64('2010-03-14T15:00:00.00+0400'),
+            np.datetime64('2010-03-15T15:00:00.00+0400'),
+            np.datetime64('2010-03-16T15:00:00.00+0400'),
+        ]
+    })
+    y = pdnet.DateTimeDataFrame(x)
     
     __check(x, y)
 

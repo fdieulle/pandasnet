@@ -8,6 +8,7 @@ namespace PandasNet
         public static readonly long OriginTicks = Origin.Ticks;
 
         public static readonly long KindLocalTicks = (long)DateTimeKind.Local << 62;
+        public static readonly long KindUtcTicks = (long)DateTimeKind.Utc << 62;
 
         public const double TICKS_BY_NS = 0.01;
         public const long TICKS_BY_US = 10;

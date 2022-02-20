@@ -68,10 +68,10 @@ namespace PandasNet
             }
             else
             {
-                timestamp = new DateTime(timestamp.Ticks, DateTimeKind.Local);
+                timestamp = new DateTime(timestamp.Ticks, DateTimeKind.Utc);
             }
 
-            return timestamp.ToLocalTime();
+            return timestamp;
         }
     }
 }
