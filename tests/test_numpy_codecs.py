@@ -1,15 +1,8 @@
 import pandasnet
-import os
 import numpy as np
 import pytest
-import clr
 
-
-lib_file = os.path.join(os.path.dirname(__file__), 'libs', 'LibForTests.dll')
-if os.path.exists(lib_file):
-    clr.AddReference(lib_file)
-
-    from LibForTests import NumpyNet as npnet
+from LibForTests import NumpyNet as npnet
 
 
 @pytest.mark.skip(reason="pythonnet do not allow override")

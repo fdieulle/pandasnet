@@ -1,18 +1,12 @@
 import pandasnet
-import os
 import pandas as pd
 import numpy as np
 from datetime import datetime
-import clr
 import pytest
 
-lib_file = os.path.join(os.path.dirname(__file__), 'libs', 'LibForTests.dll')
-if os.path.exists(lib_file):
-    clr.AddReference(lib_file)
+from LibForTests import PandasNet as pdnet
 
-    from LibForTests import NumpyNet as npnet
 
-@pytest.mark.skip(reason="travis issue")
 def test_basic_dataframe():
     x = pd.DataFrame({
         'A': [1, 2, 3],
@@ -25,7 +19,7 @@ def test_basic_dataframe():
     
     __check(x, y)
 
-@pytest.mark.skip(reason="travis issue")
+
 def test_datetime64_into_dataframe():
     x = pd.DataFrame({
         'Utc': [
