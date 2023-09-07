@@ -29,7 +29,7 @@ namespace PandasNet
                     scope.Import("pytz");
                     tz = ", tzinfo=pytz.utc";
                 }
-                scope.Exec($"a = datetime.datetime({x:yyyy, M, d, H, m, s, ffffff}{tz}");
+                scope.Exec($"a = datetime.datetime({x:yyyy, M, d, H, m, s, ffffff}{tz})");
                 return scope.Get("a");
             }
         }
@@ -40,7 +40,7 @@ namespace PandasNet
             {
                 scope.Import("datetime");
                 var microseconds = x.Ticks / 10L % 1000000L;
-                scope.Exec($"a = datetime.timedelta(days={x.Days}, hours={x.Hours}, minutes={x.Minutes}, seconds={x.Seconds}, microseconds={microseconds}");
+                scope.Exec($"a = datetime.timedelta(days={x.Days}, hours={x.Hours}, minutes={x.Minutes}, seconds={x.Seconds}, microseconds={microseconds})");
                 return scope.Get("a");
             }
         }
