@@ -10,7 +10,7 @@ def test_datetime():
     assert result == now
 
 def test_date():
-    today = datetime.today()
+    today = datetime.now().date()
     result = dtnet.DateTimePassThrough(today)
 
     # Convert date to datetime
@@ -24,7 +24,7 @@ def test_timedelta():
     assert result == td
 
 def test_time():
-    now = datetime.time()
+    now = datetime.now().time()
     result = dtnet.TimeSpanPassThrough(now)
 
     # convert time to timedelta

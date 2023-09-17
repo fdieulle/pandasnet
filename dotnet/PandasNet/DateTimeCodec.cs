@@ -52,7 +52,7 @@ namespace PandasNet
                 py.GetAttr("day").As<int>())
                 .Date;
 
-        private static object DecodeDateTime(PyObject py)
+        private static DateTime DecodeDateTime(PyObject py)
         {
             var utcDelta = TimeSpan.Zero;
             var kind = DateTimeKind.Local;
@@ -78,7 +78,7 @@ namespace PandasNet
                 .ToLocalTime();
         }
 
-        private static object DecodeTime(PyObject py)
+        private static TimeSpan DecodeTime(PyObject py)
         {
             var result = new TimeSpan(
                 py.GetAttr("hour").As<int>(),
