@@ -3,14 +3,17 @@ on:
     tags:
       - '*'
 
-name: Create Release
+name: Release
 
 jobs:
   autorelease:
     name: Create Release
     runs-on: 'ubuntu-latest'
+
     permissions:
-        id-token: write
+      contents: write
+      id-token: write
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
