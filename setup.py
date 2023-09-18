@@ -169,7 +169,7 @@ dotnet_libs = [
     DotnetLib(
         "pandas-converters",
         "dotnet/PandasNet/PandasNet.csproj",
-        output=os.path.join(os.path.dirname(__file__), "pandasnet/libs"),
+        output="pandasnet/libs",
         exclude='Python.Runtime.'
     ),
     DotnetLib(
