@@ -115,7 +115,7 @@ class build_dotnet(Command):
                 os.path.abspath(self.build_lib), 
                 lib.args.pop("output")
             )
-            print(output)
+            
             exclude = lib.args.pop("exclude", None)
 
             opts = sum([
@@ -170,6 +170,12 @@ dotnet_libs = [
         "pandas-converters",
         "dotnet/PandasNet/PandasNet.csproj",
         output="pandasnet/libs",
+        exclude='Python.Runtime.'
+    ),
+    DotnetLib(
+        "pandas-converters",
+        "dotnet/PandasNet/PandasNet.csproj",
+        output=os.path.join(os.path.dirname(__file__), "pandasnet/libs"),
         exclude='Python.Runtime.'
     ),
     DotnetLib(
