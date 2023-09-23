@@ -1,6 +1,7 @@
 # pandasnet
 
-[![Build Status](https://travis-ci.com/fdieulle/pandasnet.svg?branch=main)](https://travis-ci.com/github/fdieulle/pandasnet)
+[![build](https://github.com/fdieulle/pandasnet/actions/workflows/build.yml/badge.svg)](https://github.com/fdieulle/pandasnet/actions/workflows/build.yml)
+[![release](https://github.com/fdieulle/pandasnet/actions/workflows/release.yml/badge.svg)](https://github.com/fdieulle/pandasnet/actions/workflows/release.yml)
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg?maxAge=3600)](./LICENSE) 
 [![pypi](https://img.shields.io/pypi/v/pandasnet.svg)](https://pypi.org/project/pandasnet/)
