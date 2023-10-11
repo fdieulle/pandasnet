@@ -29,7 +29,8 @@ namespace PandasNet
                     scope.Import("pytz");
                     tz = ", tzinfo=pytz.utc";
                 }
-                scope.Exec($"a = datetime.datetime({x:yyyy, M, d, H, m, s, ffffff}{tz})");
+                var microseconds = x.Ticks / 10L % 1000000L;
+                scope.Exec($"a = datetime.datetime({x:yyyy, M, d, H, m, s}, {microseconds}{tz})");
                 return scope.Get("a");
             }
         }
